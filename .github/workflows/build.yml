@@ -97,5 +97,10 @@ jobs:
           start: npm run start
           browser: chrome
           wait-on: "http://localhost:3000"
+      - name: Upload Screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          path: "cypress/screenshots/spec.cy.ts/Flow Tests"
       - name: Pa11y testing
         run: npm run dev & sleep 5; npm run pa11y-ci
