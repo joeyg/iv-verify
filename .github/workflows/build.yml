@@ -93,9 +93,8 @@ jobs:
       - name: Cypress testing
         uses: cypress-io/github-action@v6
         with:
-          build: npm run build
-          start: npm run start
-          # browser: chrome
+          start: npm run dev
+          browser: chrome
           wait-on: "http://localhost:3000"
       - name: Upload Screenshots
         if: always()
