@@ -19,7 +19,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: coverage/coverage.json
-
       # - name: Generate token
       #   id: generate-token
       #   uses: actions/create-github-app-token@v1
@@ -97,5 +96,6 @@ jobs:
           build: npm run build
           start: npm run start
           browser: chrome
+          wait-on: "http://localhost:3000"
       - name: Pa11y testing
         run: npm run dev & sleep 5; npm run pa11y-ci
