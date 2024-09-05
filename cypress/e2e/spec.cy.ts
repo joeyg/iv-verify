@@ -1,6 +1,6 @@
 describe('Flow Tests', () => {
   it('Shows the landing page', () => {
-    cy.visit('http://localhost:3000')
+    cy.visit('/')
   })
 
   it('Navigates through the Medicaid only flow', () => {
@@ -13,7 +13,7 @@ describe('Flow Tests', () => {
     const username = 'Jane Doe'
   
     // Landing Page
-    cy.visit('http://localhost:3000')
+    cy.visit('/')
     cy.get('[data-testid=get_started_button]').trigger("click")
 
     // How This Works
