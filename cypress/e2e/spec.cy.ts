@@ -15,9 +15,6 @@ describe('Flow Tests', () => {
     cy.visit('/')
 
     // Landing Page
-    console.log(document.querySelector('[data-testid=get_started_button]'))
-    console.log(document.querySelector('button'))
-    console.log(cy.get('[data-testid=get_started_button]'))
     cy.get('button').contains('Get Started').should('exist')
     cy.get('[data-testid=get_started_button]').should('exist')
     cy.get('[data-testid=get_started_button]').click()
