@@ -1,6 +1,7 @@
 describe('Flow Tests', () => {
   it('Shows the landing page', () => {
     cy.visit('/')
+    cy.get('[data-testid=get_started_button]').click()
   })
 
   it('Navigates through the Medicaid only flow', () => {
@@ -11,10 +12,15 @@ describe('Flow Tests', () => {
     const expenseDate = '09/04/2024'
     const expenseAmount = '33'
     const username = 'Jane Doe'
-  
-    // Landing Page
     cy.visit('/')
-    cy.get('[data-testid=get_started_button]').trigger("click")
+
+    // Landing Page
+    console.log(document.querySelector('[data-testid=get_started_button]'))
+    console.log(document.querySelector('button'))
+    console.log(cy.get('[data-testid=get_started_button]'))
+    cy.get('button').contains('Get Started').should('exist')
+    cy.get('[data-testid=get_started_button]').should('exist')
+    cy.get('[data-testid=get_started_button]').click()
 
     // How This Works
     cy.url().should('include', '/introduction/how-this-works')
