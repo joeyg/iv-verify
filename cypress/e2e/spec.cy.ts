@@ -4,7 +4,7 @@ describe('Flow Tests', () => {
   const incomeAmount = '55'
   const expenseName = 'Gas'
   const expenseDate = '09/04/2024'
-  const expenseAmount = '33'
+  let expenseAmount = '33'
   const username = 'Jane Doe'
 
   it('Shows the landing page', () => {
@@ -30,6 +30,7 @@ describe('Flow Tests', () => {
   })
 
   it('Navigates through the SNAP only flow (with standard deduction)', () => {
+    expenseAmount = "3"
     cy.visit('/')
 
     landingPage()
@@ -38,6 +39,9 @@ describe('Flow Tests', () => {
     ledgerLandingPage()
     ledgerAddIncomePage()
     ledgerIncomeListPage()
+    ledgerExpenseLandingPage()
+    ledgerExpenseAddPage()
+    ledgerExpenseListPage()
     ledgerExpenseSnapPage({itemize: false})
     ledgerReviewPage()
     statementSignPage()
@@ -45,6 +49,7 @@ describe('Flow Tests', () => {
   })
 
   it('Navigates through the SNAP only flow (without standard deduction', () => {
+    expenseAmount = "3"
     cy.visit('/')
 
     landingPage()
@@ -53,10 +58,10 @@ describe('Flow Tests', () => {
     ledgerLandingPage()
     ledgerAddIncomePage()
     ledgerIncomeListPage()
-    ledgerExpenseSnapPage({itemize: true})
     ledgerExpenseLandingPage()
     ledgerExpenseAddPage()
     ledgerExpenseListPage()
+    ledgerExpenseSnapPage({itemize: true})
     ledgerReviewPage()
     statementSignPage()
     statementConfirmationPage()
@@ -164,9 +169,9 @@ describe('Flow Tests', () => {
   function ledgerExpenseSnapPage({itemize}: {itemize: boolean}) {
     cy.url().should('include', '/ledger/expense/snap')
     if (itemize) {
-      cy.get('label[for=yes_radio]').click()
+      cy.get('label[for=take_deduction_radio]').click()
     } else {
-      cy.get('label[for=no_radio]').click()
+      cy.get('label[for=do_not_take_deduction_radio]').click()
     }
     cy.get('button[data-testid=continue-button]').click()
   }
