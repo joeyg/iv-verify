@@ -5,7 +5,7 @@ import { useAppDispatch } from "@/lib/hooks"
 import { addIncome, IncomeItem } from "@/lib/features/ledger/income/incomeSlice"
 import { useRouter } from "next/navigation"
 import VerifyNav from "@/app/components/VerifyNav"
-import IncomeItemForm, { IncomeItemFormData } from '@/app/[locale]/ledger/income/IncomeItemForm'
+import IncomeItemForm, { IncomeItemFormData } from '@/app/[locale]/[organization]/ledger/income/IncomeItemForm'
 
 export default function Page() {
     const { t } = useTranslation()
