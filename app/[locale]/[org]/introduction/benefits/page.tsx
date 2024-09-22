@@ -52,11 +52,11 @@ export default function Page() {
                         <main className="usa-layout-docs">
                             <h3>{t('benefits_header')}</h3>
                             <Form onSubmit={handleSubmit(onSubmit)} className="margin-top-5">
-                            {errState && (
-                                <Alert type="error" headingLevel="h5" className="margin-top-3">
-                                    {t('benefits_error_message')} 
-                                </Alert>
-                            )}
+                                {errState && (
+                                    <Alert type="error" headingLevel="h5" className="margin-top-3">
+                                        {t('benefits_error_message')} 
+                                    </Alert>
+                                )}
                                 <FormGroup>
                                     <Controller
                                         name="medicaid"

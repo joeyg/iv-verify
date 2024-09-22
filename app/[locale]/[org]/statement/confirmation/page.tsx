@@ -33,7 +33,7 @@ export default function Page() {
                                 <h3>{t('statement_confirmation_header')}</h3>
                                 <div className="margin-top-2 margin-bottom-5">{t('statement_confirmation_subheader', { 
                                     number: signedStatement?.confirmationNumber ?? 'XXX' 
-                                    })}
+                                })}
                                 </div>
                                 <h4>{t('statement_confirmation_what_next')}</h4>
                                 <ul className="margin-top-2 margin-left-4 margin-bottom-5">

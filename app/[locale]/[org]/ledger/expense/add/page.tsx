@@ -133,9 +133,9 @@ export default function Page() {
                                                     {...(errors.date?.message !== undefined ? {validationStatus: 'error'} : {})}
                                                 />
                                             </>
-                                            )
+                                        )
                                         }
-                                        />
+                                    />
                                 </FormGroup>
 
                                 <FormGroup>
@@ -166,14 +166,14 @@ export default function Page() {
                                                     data-testid="expenseType"
                                                 />
                                             </>
-                                            )
+                                        )
                                         }
                                     />
                                 </FormGroup>
 
                                 <Button type="submit" data-testid="continue_button">{t('add_expense_continue_button')}</Button>
                             </Form>
-                         </main>
+                        </main>
                     </Grid>
                 </GridContainer>
             </div>

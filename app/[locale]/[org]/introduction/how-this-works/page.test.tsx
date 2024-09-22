@@ -7,37 +7,37 @@ import { vi } from 'vitest'
 import { EnhancedStore } from '@reduxjs/toolkit'
 
 describe('How this works page', async () => {
-  let store: EnhancedStore;
-  const mocks = vi.hoisted(() => ({
-    push: vi.fn(),
-  }))
+    let store: EnhancedStore;
+    const mocks = vi.hoisted(() => ({
+        push: vi.fn(),
+    }))
 
-  vi.mock('@/hooks/approuter', () => ({
-      useAppRouter: () => ({
-          push: mocks.push,
-      }),
-  }))
+    vi.mock('@/hooks/approuter', () => ({
+        useAppRouter: () => ({
+            push: mocks.push,
+        }),
+    }))
 
-  beforeEach(() => {
-      store = makeStore()
-      render (<Provider store={store}><Page /></Provider>)
-  })
-
-  afterEach(() => {
-    cleanup()
-    mocks.push.mockClear()
-  })
-
-  it('shows header', () => {
-    expect(screen.getByTestId('how_this_works_header')).toBeDefined()
-  })
-
-  it('navigates when clicked', async () => {
-    fireEvent.click(screen.getByTestId('get_started_button'))
-    await waitFor(() => {
-      expect(mocks.push).toHaveBeenCalledOnce()
+    beforeEach(() => {
+        store = makeStore()
+        render (<Provider store={store}><Page /></Provider>)
     })
 
-    expect(mocks.push).toHaveBeenCalledWith("/introduction/benefits/")
-  })
+    afterEach(() => {
+        cleanup()
+        mocks.push.mockClear()
+    })
+
+    it('shows header', () => {
+        expect(screen.getByTestId('how_this_works_header')).toBeDefined()
+    })
+
+    it('navigates when clicked', async () => {
+        fireEvent.click(screen.getByTestId('get_started_button'))
+        await waitFor(() => {
+            expect(mocks.push).toHaveBeenCalledOnce()
+        })
+
+        expect(mocks.push).toHaveBeenCalledWith("/introduction/benefits/")
+    })
 })

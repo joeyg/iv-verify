@@ -39,14 +39,14 @@ export default function VerifyNav(props: VerifyNavProps) {
             className={`usa-nav__link ${isCurrent ? "usa-current" : ""}`}
             onClick={() => {changeLang(lang) }}
             data-testid={`locale-${lang}`}
-            >{text}</Link>
+        >{text}</Link>
     }
 
     function makeNavItem(text: string, url: string) {
         return <Link
             href={url}
             className={`usa-nav__link`}
-            >{text}</Link>
+        >{text}</Link>
     }
 
     const navItems = [
@@ -60,13 +60,13 @@ export default function VerifyNav(props: VerifyNavProps) {
     }
     return (
         <Header basic={true} showMobileOverlay={expanded}>
-        <div className="usa-nav-container">
-            <div className="usa-navbar">
-                <Title>{props.title}</Title>
-                <NavMenuButton onClick={onClick} label="Menu" />
+            <div className="usa-nav-container">
+                <div className="usa-navbar">
+                    <Title>{props.title}</Title>
+                    <NavMenuButton onClick={onClick} label="Menu" />
+                </div>
+                <PrimaryNav items={navItems} mobileExpanded={expanded} onToggleMobileNav={onClick} />
             </div>
-            <PrimaryNav items={navItems} mobileExpanded={expanded} onToggleMobileNav={onClick} />
-        </div>
-    </Header>
+        </Header>
     )
 }

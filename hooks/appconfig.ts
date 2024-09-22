@@ -2,7 +2,7 @@
 import { useParams } from "next/navigation";
 import config from "@/config/appconfig.json"
 
-interface ConfigFile {
+export interface ConfigFile {
     organizations: OrgConfig[]
 }
 

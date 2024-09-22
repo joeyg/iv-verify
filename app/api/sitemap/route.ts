@@ -8,15 +8,15 @@ export async function GET(req: Request) {
         .filter(file => file.endsWith('page.tsx'))
         .filter(file => file.indexOf('[idx]') === -1)
         .map((file) => {
-          let name = file.substring(0, file.indexOf('page.tsx'))
-          if (name.indexOf('[locale]') === -1) {
-            return `<url><loc>http://${req.headers.get('host')}/${name}</loc></url>`
-          }
+            let name = file.substring(0, file.indexOf('page.tsx'))
+            if (name.indexOf('[locale]') === -1) {
+                return `<url><loc>http://${req.headers.get('host')}/${name}</loc></url>`
+            }
           
-          return i18nConfig.locales.map((locale) => {
-            const n = name.replace("[locale]", locale)
-            return `<url><loc>http://${req.headers.get('host')}/${n}</loc></url>`
-          }).join('\n')
+            return i18nConfig.locales.map((locale) => {
+                const n = name.replace("[locale]", locale)
+                return `<url><loc>http://${req.headers.get('host')}/${n}</loc></url>`
+            }).join('\n')
         })
 
     const content = `<?xml version="1.0" encoding="UTF-8"?>

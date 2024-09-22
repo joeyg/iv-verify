@@ -13,21 +13,21 @@ export default function Page() {
 
     const items = [
         {
-          title: t('income_landing_what_counts_header'),
-          content: (
-            <div>
-              <p className="margin-top-3">{t('income_landing_what_counts_list_header')}</p>
-              <ul className="margin-left-4">
-                <li>{t('income_landing_what_counts_list_have_business')}</li>
-                <li>{t('income_landing_what_counts_list_receive_form')}</li>
-                <li>{t('income_landing_what_counts_list_own_businss')}</li>
-                <li>{t('income_landing_what_counts_list_employment_benefits')}</li>
-              </ul>
-            </div>
-          ),
-          expanded: false,
-          id: 'income_landing_what_counts',
-          headingLevel: 'h4' as HeadingLevel,
+            title: t('income_landing_what_counts_header'),
+            content: (
+                <div>
+                    <p className="margin-top-3">{t('income_landing_what_counts_list_header')}</p>
+                    <ul className="margin-left-4">
+                        <li>{t('income_landing_what_counts_list_have_business')}</li>
+                        <li>{t('income_landing_what_counts_list_receive_form')}</li>
+                        <li>{t('income_landing_what_counts_list_own_businss')}</li>
+                        <li>{t('income_landing_what_counts_list_employment_benefits')}</li>
+                    </ul>
+                </div>
+            ),
+            expanded: false,
+            id: 'income_landing_what_counts',
+            headingLevel: 'h4' as HeadingLevel,
         }
     ]
 

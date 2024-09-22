@@ -32,7 +32,7 @@ export default function Page() {
                         <main className="usa-layout-docs">
                             <h3>{t('add_income_header')}</h3>
                             <IncomeItemForm onSubmit={addIncomeClicked} />
-                         </main>
+                        </main>
                     </Grid>
                 </GridContainer>
             </div>

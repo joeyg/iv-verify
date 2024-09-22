@@ -10,8 +10,8 @@ interface TranslationsProviderProps {
 }
 
 export default async function TranslationsProvider({ children, locale }: TranslationsProviderProps) {
-  const i18n = createInstance()
-  await initTranslations(locale, i18n)
+    const i18n = createInstance()
+    await initTranslations(locale, i18n)
 
-  return (<I18nextProvider i18n={i18n}>{children}</I18nextProvider>)
+    return (<I18nextProvider i18n={i18n}>{children}</I18nextProvider>)
 }

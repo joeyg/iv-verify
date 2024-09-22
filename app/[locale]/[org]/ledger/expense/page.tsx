@@ -12,24 +12,24 @@ export default function Page() {
 
     const testItems = [
         {
-          title: t('expenses_landing_what_counts_heading'),
-          content: (
-            <div>
-              {t('expenses_landing_what_counts_body')}
-              <p className="margin-top-3">{t('expenses_landing_what_counts_list_header')}</p>
-              <ul className="margin-left-4">
-                <li>{t('expenses_landing_what_counts_list_one')}</li>
-                <li>{t('expenses_landing_what_counts_list_two')}</li>
-                <li>{t('expenses_landing_what_counts_list_three')}</li>
-                <li>{t('expenses_landing_what_counts_list_four')}</li>
-                <li>{t('expenses_landing_what_counts_list_five')}</li>
-                <li>{t('expenses_landing_what_counts_list_six')}</li>
-              </ul>
-            </div>
-          ),
-          expanded: false,
-          id: 'expenses_landing_what_counts',
-          headingLevel: 'h4' as HeadingLevel,
+            title: t('expenses_landing_what_counts_heading'),
+            content: (
+                <div>
+                    {t('expenses_landing_what_counts_body')}
+                    <p className="margin-top-3">{t('expenses_landing_what_counts_list_header')}</p>
+                    <ul className="margin-left-4">
+                        <li>{t('expenses_landing_what_counts_list_one')}</li>
+                        <li>{t('expenses_landing_what_counts_list_two')}</li>
+                        <li>{t('expenses_landing_what_counts_list_three')}</li>
+                        <li>{t('expenses_landing_what_counts_list_four')}</li>
+                        <li>{t('expenses_landing_what_counts_list_five')}</li>
+                        <li>{t('expenses_landing_what_counts_list_six')}</li>
+                    </ul>
+                </div>
+            ),
+            expanded: false,
+            id: 'expenses_landing_what_counts',
+            headingLevel: 'h4' as HeadingLevel,
         }, {
             title: t('expenses_landing_need_heading'),
             content: (

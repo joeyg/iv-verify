@@ -44,17 +44,17 @@ export default function Page() {
     })
 
     const items = [
-      {
-        title: t('snap_deduction_accordion_header'),
-        content: (
-          <div>
-            <pre>{t('snap_deduction_accordion_body')}</pre>
-          </div>
-        ),
-        expanded: false,
-        id: 'snap_deduction',
-        headingLevel: 'h4' as HeadingLevel,
-      }
+        {
+            title: t('snap_deduction_accordion_header'),
+            content: (
+                <div>
+                    <pre>{t('snap_deduction_accordion_body')}</pre>
+                </div>
+            ),
+            expanded: false,
+            id: 'snap_deduction',
+            headingLevel: 'h4' as HeadingLevel,
+        }
     ]
 
     useEffect(() => {

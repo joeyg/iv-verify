@@ -36,8 +36,8 @@ describe('VerifyNav', () => {
         useTranslation: () => ({
             t: (str: string) => str,
             i18n: {
-              changeLanguage: mocks.changeLanguageSpy,
-              language: 'en',
+                changeLanguage: mocks.changeLanguageSpy,
+                language: 'en',
             }
         })
     }))

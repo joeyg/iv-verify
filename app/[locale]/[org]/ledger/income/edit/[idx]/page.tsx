@@ -36,7 +36,7 @@ export default function EditIncome({ params }: { params: { idx: number } }) {
                         <main className="usa-layout-docs">
                             <h3>{t('edit_income_header')}</h3>
                             <IncomeItemForm onSubmit={editIncomeClicked} item={item} />
-                         </main>
+                        </main>
                     </Grid>
                 </GridContainer>
             </div>

@@ -77,8 +77,8 @@ export default function Page() {
                                                     {...(errors.lastDayOfWork?.message !== undefined ? {validationStatus: 'error'} : {})}
                                                 />
                                             </>
-                                            )}
-                                        />
+                                        )}
+                                    />
                                 </FormGroup>
 
                                 <FormGroup>
@@ -108,8 +108,8 @@ export default function Page() {
                                                     {...(errors.lastPayment?.message !== undefined ? {validationStatus: 'error'} : {})}
                                                 />
                                             </>
-                                            )}
-                                        />
+                                        )}
+                                    />
                                 </FormGroup>
 
                                 <div className="margin-top-5">
