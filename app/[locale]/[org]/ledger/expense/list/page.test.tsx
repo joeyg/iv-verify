@@ -1,21 +1,20 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import Page from './page'
 import { makeStore } from '@/lib/store'
-import { vi } from 'vitest'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import mockRouter from 'next-router-mock'
 import { ExpenseItem, addExpense } from '@/lib/features/ledger/expenses/expensesSlice'
 
 describe('List Income in Ledger Page', async () => {
     let store: EnhancedStore
+    vi.mock('@/hooks/approuter', () => ({
+        useAppRouter: () => ({
+            push: vi.fn(),
+        }),
+    }))
+    
     beforeEach(() => {
-        vi.mock('next/navigation', () => ({
-            useRouter: () =>  mockRouter,
-            usePathname: () => mockRouter.asPath,
-        }))
-        mockRouter.push('/ledger/expense/add')
         store = makeStore()
     })
     afterEach(cleanup)

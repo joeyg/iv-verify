@@ -5,16 +5,16 @@ import Page from './page'
 import { makeStore } from '@/lib/store'
 import { vi } from 'vitest'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import mockRouter from 'next-router-mock'
 
 describe('Income Landing Screen', async () => {
     let store: EnhancedStore
+    vi.mock('@/hooks/approuter', () => ({
+        useAppRouter: () => ({
+            push: vi.fn(),
+        }),
+    }))
+
     beforeEach(() => {
-        vi.mock('next/navigation', () => ({
-            useRouter: () =>  mockRouter,
-            usePathname: () => mockRouter.asPath,
-        }))
-        mockRouter.push('/ledger/income/')
         store = makeStore()
         render (<Provider store={store}><Page /></Provider>)
     })

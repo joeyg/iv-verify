@@ -5,21 +5,27 @@ import Page from './page'
 import { makeStore } from '@/lib/store'
 import { vi } from 'vitest'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import mockRouter from 'next-router-mock'
 import { selectBenefits } from '@/lib/features/benefits/benefitsSlice'
 
 describe('Choose Benefits', async () => {
     let store: EnhancedStore
+    const mocks = vi.hoisted(() => ({
+        push: vi.fn(),
+    }))
+
+    vi.mock('@/hooks/approuter', () => ({
+        useAppRouter: () => ({
+            push: mocks.push,
+        }),
+    }))
     beforeEach(() => {
-        vi.mock('next/navigation', () => ({
-            useRouter: () =>  mockRouter,
-            usePathname: () => mockRouter.asPath,
-        }))
-        mockRouter.push('/benefits')
         store = makeStore()
         render (<Provider store={store}><Page /></Provider>)
     })
-    afterEach(cleanup)
+    afterEach(() => {
+        cleanup()
+        mocks.push.mockClear()
+    })
 
     it('Shows Inputs', async () => {
         expect(screen.getByTestId("medicaid")).toBeDefined()
@@ -33,9 +39,7 @@ describe('Choose Benefits', async () => {
             expect(screen.getByTestId("alert")).toBeDefined()
         })
 
-        expect(mockRouter).toMatchObject({
-            asPath: "/benefits"
-        })
+        expect(mocks.push).not.toHaveBeenCalledOnce()
     })
 
     it('Navigates when just medicaid checkbox is checked', async() => {
@@ -44,11 +48,9 @@ describe('Choose Benefits', async () => {
         fireEvent.click(screen.getByTestId("continue_button"))
 
         await waitFor(() => {
-            expect(mockRouter).toMatchObject({
-                asPath: "/ledger/income"
-            })
+            expect(mocks.push).toHaveBeenCalledOnce()
         })
-
+        expect(mocks.push).toHaveBeenCalledWith("/ledger/income")
         expect(checkbox.checked).toBeTruthy()
         
         const benefits = selectBenefits(store.getState())
@@ -62,10 +64,10 @@ describe('Choose Benefits', async () => {
         fireEvent.click(screen.getByTestId("continue_button"))
 
         await waitFor(() => {
-            expect(mockRouter).toMatchObject({
-                asPath: "/ledger/income"
-            })
+            expect(mocks.push).toHaveBeenCalledOnce()
         })
+
+        expect(mocks.push).toHaveBeenCalledWith("/ledger/income")
 
         expect(checkbox.checked).toBeTruthy()
         
@@ -80,10 +82,10 @@ describe('Choose Benefits', async () => {
         fireEvent.click(screen.getByTestId("continue_button"))
 
         await waitFor(() => {
-            expect(mockRouter).toMatchObject({
-                asPath: "/ledger/income"
-            })
+            expect(mocks.push).toHaveBeenCalledOnce()
         })
+
+        expect(mocks.push).toHaveBeenCalledWith("/ledger/income")
 
         const benefits = selectBenefits(store.getState())
         expect(benefits.medicaid).toBeTruthy()

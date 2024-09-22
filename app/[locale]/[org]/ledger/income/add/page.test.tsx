@@ -6,15 +6,23 @@ import mockRouter from 'next-router-mock'
 import TestWrapper from '@/app/TestWrapper'
 
 describe('Add Income To Ledger Page', async () => {
+    const mocks = vi.hoisted(() => ({
+        push: vi.fn(),
+    }))
+
+    vi.mock('@/hooks/approuter', () => ({
+        useAppRouter: () => ({
+            push: mocks.push,
+        }),
+    }))
+
     beforeEach(() => {
-        vi.mock('next/navigation', () => ({
-            useRouter: () =>  mockRouter,
-            usePathname: () => mockRouter.asPath,
-        }))
-        mockRouter.push('/ledger/income/add')
         render (<TestWrapper><Page /></TestWrapper>)
     })
-    afterEach(cleanup)
+    afterEach(() => {
+        cleanup()
+        mocks.push.mockClear()
+    })
 
     it('Shows Inputs', () => {
         expect(screen.getByTestId("name")).toBeDefined()
@@ -48,9 +56,7 @@ describe('Add Income To Ledger Page', async () => {
 
         expect(screen.getAllByTestId("errorMessage")).toBeDefined()
 
-        expect(mockRouter).toMatchObject({
-            asPath: "/ledger/income/add"
-        })
+        expect(mocks.push).not.toHaveBeenCalledOnce()
     })
 
     it('Navigates when fields are filled in', async () => {
@@ -75,9 +81,9 @@ describe('Add Income To Ledger Page', async () => {
         fireEvent.click(screen.getByText('Continue'))
 
         await waitFor(() => {
-            expect(mockRouter).toMatchObject({
-                asPath: "/ledger/income/list"
-            })
+            expect(mocks.push).toHaveBeenCalledOnce()
         })
+
+        expect(mocks.push).toHaveBeenCalledWith("/ledger/income/list")
     })
 })

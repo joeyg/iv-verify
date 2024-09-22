@@ -5,21 +5,28 @@ import Page from './page'
 import { makeStore } from '@/lib/store'
 import { vi } from 'vitest'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import mockRouter from 'next-router-mock'
 import { selectSignedStatement } from '@/lib/features/statement/statementSlice'
 
 describe('Sign Statement', async () => {
     let store: EnhancedStore
+    const mocks = vi.hoisted(() => ({
+        push: vi.fn(),
+    }))
+
+    vi.mock('@/hooks/approuter', () => ({
+        useAppRouter: () => ({
+            push: mocks.push,
+        }),
+    }))
+
     beforeEach(() => {
-        vi.mock('next/navigation', () => ({
-            useRouter: () =>  mockRouter,
-            usePathname: () => mockRouter.asPath,
-        }))
-        mockRouter.push('/statement/sign')
         store = makeStore()
         render (<Provider store={store}><Page /></Provider>)
     })
-    afterEach(cleanup)
+    afterEach(() => {
+        cleanup()
+        mocks.push.mockClear()
+    })
 
     it('Shows Inputs', async () => {
         expect(screen.getByTestId("understood")).toBeDefined()
@@ -35,9 +42,7 @@ describe('Sign Statement', async () => {
 
         expect(screen.getAllByTestId("errorMessage")).toBeDefined()
 
-        expect(mockRouter).toMatchObject({
-            asPath: "/statement/sign"
-        })
+        expect(mocks.push).not.toHaveBeenCalled()
     })
 
     it('Navigates when fields are filled in', async () => {
@@ -49,10 +54,10 @@ describe('Sign Statement', async () => {
         fireEvent.click(screen.getByTestId('continue_button'))
 
         await waitFor(() => {
-            expect(mockRouter).toMatchObject({
-                asPath: "/statement/confirmation"
-            })
+            expect(mocks.push).toHaveBeenCalledOnce()
         })
+
+        expect(mocks.push).toHaveBeenCalledWith("/statement/confirmation")
 
         const statement = selectSignedStatement(store.getState())
         expect(statement.understood).toBeTruthy()

@@ -9,16 +9,25 @@ import mockRouter from 'next-router-mock'
 
 describe('How this works page', async () => {
   let store: EnhancedStore;
+  const mocks = vi.hoisted(() => ({
+    push: vi.fn(),
+  }))
+
+  vi.mock('@/hooks/approuter', () => ({
+      useAppRouter: () => ({
+          push: mocks.push,
+      }),
+  }))
+
   beforeEach(() => {
-      vi.mock('next/navigation', () => ({
-          useRouter: () =>  mockRouter,
-          usePathname: () => mockRouter.asPath,
-      }))
-      mockRouter.push('/')
       store = makeStore()
       render (<Provider store={store}><Page /></Provider>)
   })
-  afterEach(cleanup)
+
+  afterEach(() => {
+    cleanup()
+    mocks.push.mockClear()
+  })
 
   it('shows header', () => {
     expect(screen.getByTestId('how_this_works_header')).toBeDefined()
@@ -27,9 +36,9 @@ describe('How this works page', async () => {
   it('navigates when clicked', async () => {
     fireEvent.click(screen.getByTestId('get_started_button'))
     await waitFor(() => {
-        expect(mockRouter).toMatchObject({
-            asPath: "/introduction/benefits"
-        })
+      expect(mocks.push).toHaveBeenCalledOnce()
     })
+
+    expect(mocks.push).toHaveBeenCalledWith("/introduction/benefits/")
   })
 })

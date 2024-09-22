@@ -5,20 +5,27 @@ import Page from './page'
 import { makeStore } from '@/lib/store'
 import { vi } from 'vitest'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import mockRouter from 'next-router-mock'
 
 describe('Set Signed Statment', async () => {
     let store: EnhancedStore
+    const mocks = vi.hoisted(() => ({
+        push: vi.fn(),
+    }))
+
+    vi.mock('@/hooks/approuter', () => ({
+        useAppRouter: () => ({
+            push: mocks.push,
+        }),
+    }))
+
     beforeEach(() => {
-        vi.mock('next/navigation', () => ({
-            useRouter: () =>  mockRouter,
-            usePathname: () => mockRouter.asPath,
-        }))
-        mockRouter.push('/statement/set')
         store = makeStore()
         render (<Provider store={store}><Page /></Provider>)
     })
-    afterEach(cleanup)
+    afterEach(() => {
+        cleanup()
+        mocks.push.mockClear()
+    })
 
     it('Shows Inputs', async () => {
         expect(screen.getByTestId("name")).toBeDefined()
@@ -33,10 +40,7 @@ describe('Set Signed Statment', async () => {
         })
 
         expect(screen.getAllByTestId("errorMessage")).toBeDefined()
-
-        expect(mockRouter).toMatchObject({
-            asPath: "/statement/set"
-        })
+        expect(mocks.push).not.toHaveBeenCalled()
     })
 
     it('Navigates when fields are filled in', async () => {
@@ -56,9 +60,9 @@ describe('Set Signed Statment', async () => {
         fireEvent.click(screen.getByTestId('continue_button'))
 
         await waitFor(() => {
-            expect(mockRouter).toMatchObject({
-                asPath: "/statement/sign"
-            })
+            expect(mocks.push).toHaveBeenCalledOnce()
         })
+
+        expect(mocks.push).toHaveBeenCalledWith("/statement/sign")
     })
 })

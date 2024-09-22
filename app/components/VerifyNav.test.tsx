@@ -1,38 +1,56 @@
-import { beforeEach, describe, expect, it, vi } from "vitest"
+import { beforeEach, describe, expect, it, Mock, vi } from "vitest"
 import VerifyNav from "./VerifyNav"
-import { fireEvent, render, screen } from "@testing-library/react"
+import { cleanup, fireEvent, render, screen } from "@testing-library/react"
 import { i18nConfig } from "../constants"
-
-const changeLanguageSpy = vi.fn()
-const routerPushSpy = vi.fn()
-const refreshSpy = vi.fn()
-const cookiesSpy = vi.fn()
+import { afterEach } from "node:test"
 
 describe('VerifyNav', () => {
+    interface Mocks {
+        push: Mock
+        refresh: Mock
+        cookiesSpy: Mock
+        changeLanguageSpy: Mock
+    }
 
-    beforeEach(() => {
-        vi.mock('next/navigation', () => ({
-            useRouter: () =>  ({
-                push: routerPushSpy,
-                asPath: '/',
-                refresh: refreshSpy,
-            }),
-            usePathname: () => '/',
-        }))
+    const mocks:Mocks = vi.hoisted(() => ({
+        push: vi.fn(),
+        refresh: vi.fn(),
+        cookiesSpy: vi.fn(),
+        changeLanguageSpy: vi.fn(),
+    }))
 
-        vi.mock('react-i18next', () => ({
-            useTranslation: () => ({
-                t: (str: string) => str,
-                i18n: {
-                  changeLanguage: changeLanguageSpy,
-                  language: 'en',
-                }
-            })
-        }))
+    vi.mock('@/hooks/approuter', () => ({
+        useAppRouter: () => ({
+            push: mocks.push,
+            asPath: "/",
+            refresh: mocks.refresh
+        }),
+    }))
 
-        vi.mock('react-cookie', () => ({
-            useCookies: () => ([vi.fn(), cookiesSpy])
-        }))
+    vi.mock('next/navigation', () => ({
+        usePathname: vi.fn().mockReturnValue('/')
+    }))
+
+
+    vi.mock('react-i18next', () => ({
+        useTranslation: () => ({
+            t: (str: string) => str,
+            i18n: {
+              changeLanguage: mocks.changeLanguageSpy,
+              language: 'en',
+            }
+        })
+    }))
+
+    vi.mock('react-cookie', () => ({
+        useCookies: () => ([vi.fn(), mocks.cookiesSpy])
+    }))
+
+    afterEach(() => {
+        cleanup()
+        for (const key of Object.keys(mocks)) {
+            mocks[key as keyof Mocks].mockClear()
+        }
     })
 
     render(<VerifyNav title={"MY TITLE"} />)
@@ -45,23 +63,22 @@ describe('VerifyNav', () => {
         fireEvent.click(screen.getByTestId("locale-es"))
 
         it('calls change language', () => {
-            expect(changeLanguageSpy.mock.calls.length).toBe(1)
-            expect(changeLanguageSpy.mock.calls[0][0]).toBe('es')
+            expect(mocks.changeLanguageSpy).toHaveBeenCalledOnce()
+            expect(mocks.changeLanguageSpy).toHaveBeenCalledWith('es')
         })
 
         it('pushes new route', () => {
-            expect(routerPushSpy.mock.calls.length).toBe(1)
-            expect(routerPushSpy.mock.calls[0][0]).toBe('/es//')
+            expect(mocks.push).toHaveBeenCalledOnce()
+            expect(mocks.push).toHaveBeenCalledWith('/es//')
         })
 
         it('refreshes router', () => {
-            expect(refreshSpy.mock.calls.length).toBe(1)
+            expect(mocks.refresh).toHaveBeenCalledOnce()
         })
 
         it('sets cookie', () => {
-            expect(cookiesSpy.mock.calls.length).toBe(1)
-            expect(cookiesSpy.mock.calls[0][0]).toBe(i18nConfig.cookieName)
-            expect(cookiesSpy.mock.calls[0][1]).toBe('es')
+            expect(mocks.cookiesSpy).toHaveBeenCalledOnce()
+            expect(mocks.cookiesSpy).toHaveBeenCalledWith(i18nConfig.cookieName, 'es')
         })
     })
 })

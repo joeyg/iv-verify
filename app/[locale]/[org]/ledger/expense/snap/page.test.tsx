@@ -11,12 +11,17 @@ import TestWrapper from '@/app/TestWrapper'
 
 describe('SNAP Recommend Deduction Screen', async () => {
     let store: EnhancedStore
+    const mocks = vi.hoisted(() => ({
+        push: vi.fn(),
+    }))
+
+    vi.mock('@/hooks/approuter', () => ({
+        useAppRouter: () => ({
+            push: mocks.push,
+        }),
+    }))
+
     beforeEach(() => {
-        vi.mock('next/navigation', () => ({
-            useRouter: () =>  mockRouter,
-            usePathname: () => mockRouter.asPath,
-        }))
-        mockRouter.push('/ledger/expense/snap/recommend')
         store = makeStore()
         const benefits: BenefitsState = {
             deductionAmount: 50,
@@ -50,10 +55,10 @@ describe('SNAP Recommend Deduction Screen', async () => {
 
 
         await waitFor(() => {
-            expect(mockRouter).toMatchObject({
-                asPath: "/ledger/review"
-            })
+            expect(mocks.push).toHaveBeenCalledOnce()
         })
+
+        expect(mocks.push).toHaveBeenCalledWith("/ledger/review")
 
         const benefits = selectBenefits(store.getState())
         expect(benefits.standardDeduction).toBeTruthy()
