@@ -28,5 +28,9 @@
             ]
         }
         ]
+    }, {
+        "name": "Alaska",
+        "urlKey": "ak",
+        "benefits": ["snap", "medicaid"]
     }]
 }

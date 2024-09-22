@@ -18,20 +18,19 @@ export const metadata: Metadata = {
 
 export function generateStaticParams() {
     const configFile: ConfigFile = config
-    
-    let params = []
 
-    for (const locale of i18nConfig.locales) {
-        for (const org of configFile.organizations) {
-            params.push({
-                locale,
-                org: org.urlKey,
-            })
-        }
-    }
-
-    console.log(params)
-    return params
+    console.log(i18nConfig.locales.map((locale) => {
+        return configFile.organizations.map((org) => ({
+            locale,
+            org: org.urlKey,
+        }))
+    }).flat())
+    return i18nConfig.locales.map((locale) => {
+        return configFile.organizations.map((org) => ({
+            locale,
+            org: org.urlKey,
+        }))
+    }).flat()
 }
 
 function RootLayout({
