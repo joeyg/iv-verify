@@ -2,7 +2,6 @@
 import { Button,  Grid, GridContainer } from '@trussworks/react-uswds' 
 import { useTranslation } from 'react-i18next'
 import { useAppSelector } from "@/lib/hooks"
-import { useRouter } from "next/navigation"
 import { selectBenefits } from "@/lib/features/benefits/benefitsSlice"
 import { selectIncomeTotal } from "@/lib/features/ledger/income/incomeSlice"
 import Link from "next/link"
@@ -11,12 +10,13 @@ import ExpenseList from "@/app/components/ExpenseList"
 import LedgerReviewHeader from "./LedgerReviewHeader"
 import SnapExpenses from "./SnapExpenses"
 import VerifyNav from "@/app/components/VerifyNav"
+import { useAppRouter } from '@/hooks/approuter'
 
 const DAY_COUNT = 30
 
 export default function Page() {
     const { t } = useTranslation()
-    const router = useRouter()
+    const router = useAppRouter()
     const benefits = useAppSelector(state => selectBenefits(state))
     const incomeTotal = useAppSelector(state => selectIncomeTotal(state))
 

@@ -6,12 +6,12 @@ import { Grid, GridContainer } from "@trussworks/react-uswds"
 import { useTranslation } from "react-i18next"
 import IncomeItemForm, { IncomeItemFormData } from "@/app/[locale]/[organization]/ledger/income/IncomeItemForm"
 import { useDispatch } from "react-redux"
-import { useRouter } from "next/navigation"
+import { useAppRouter } from "@/hooks/approuter"
 
 export default function EditIncome({ params }: { params: { idx: number } }) {
     const { t } = useTranslation()
     const dispatch = useDispatch()
-    const router = useRouter()
+    const router = useAppRouter()
     const item = useAppSelector(state => selectIncomeItemAt(state, params.idx))
 
     function editIncomeClicked({name, description, amount}: IncomeItemFormData) {

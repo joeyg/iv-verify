@@ -2,8 +2,9 @@ import { Header, Link, NavMenuButton, PrimaryNav, Title } from "@trussworks/reac
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { i18nConfig } from "@/app/constants"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
 import { useCookies } from "react-cookie"
+import { useAppRouter } from "@/hooks/approuter"
 
 interface VerifyNavProps {
     title: string
@@ -11,7 +12,7 @@ interface VerifyNavProps {
 
 export default function VerifyNav(props: VerifyNavProps) {
     const { t, i18n } = useTranslation()
-    const router = useRouter()
+    const router = useAppRouter()
     const currentPathname = usePathname()
     const [_, setCookie] = useCookies([i18nConfig.cookieName]);
     const currentLocale = i18n.language

@@ -2,15 +2,15 @@
 
 import { Button, Grid, GridContainer } from '@trussworks/react-uswds' 
 import { useTranslation } from 'react-i18next'
-import { useRouter } from "next/navigation"
 import ExpenseList from "@/app/components/ExpenseList"
 import { useAppSelector } from "@/lib/hooks"
 import { selectRecommendStandardDeduction } from "@/lib/store"
 import VerifyNav from "@/app/components/VerifyNav"
+import { useAppRouter } from '@/hooks/approuter'
 
 export default function Page() {
     const { t } = useTranslation()
-    const router = useRouter()
+    const router = useAppRouter()
     const recommendStandardDeduction = useAppSelector(state => selectRecommendStandardDeduction(state))
 
     function doneClicked() {

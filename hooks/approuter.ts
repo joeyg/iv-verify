@@ -10,7 +10,7 @@ export function useAppRouter() {
 
     function push(href: string, options?: NavigateOptions) {
         const key = config.urlKey
-        return router.push(`${key}/${href}`, options)
+        return router.push(`/${key}/${href}`, options)
     }
 
     return {

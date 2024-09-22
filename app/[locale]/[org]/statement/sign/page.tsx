@@ -2,18 +2,18 @@
 import { useTranslation } from 'react-i18next'
 import { Button, Form, FormGroup, Grid, GridContainer, CardHeader, Card, CardBody, CardGroup, Checkbox, RequiredMarker } from '@trussworks/react-uswds' 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks"
-import { useRouter } from "next/navigation"
 import { SubmitHandler, useForm, Controller } from "react-hook-form"
 import TextFieldWithValidation from "@/app/components/TextFieldWithValidation"
 import ErrorSummary from "@/app/components/ErrorSummary"
 import { selectSignedStatement, setSignedStatement } from "@/lib/features/statement/statementSlice"
 import RequiredFieldDescription from "@/app/components/RequiredFieldDescription"
 import VerifyNav from "@/app/components/VerifyNav"
+import { useAppRouter } from '@/hooks/approuter'
 
 export default function Page() {
     const { t } = useTranslation()
     const dispatch = useAppDispatch()
-    const router = useRouter()
+    const router = useAppRouter()
     const signedStatement = useAppSelector((state) => selectSignedStatement(state))
 
     type FormData = {

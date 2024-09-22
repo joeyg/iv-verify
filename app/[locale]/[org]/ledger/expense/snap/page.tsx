@@ -1,7 +1,6 @@
 'use client'
 
 import { Accordion, Button, Grid, GridContainer, HeadingLevel, Radio, Form } from '@trussworks/react-uswds' 
-import { useRouter } from "next/navigation"
 import { useTranslation } from "react-i18next"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { useAppDispatch, useAppSelector } from "@/lib/hooks"
@@ -10,10 +9,11 @@ import { selectExpenseTotal } from "@/lib/features/ledger/expenses/expensesSlice
 import { useEffect } from "react"
 import { selectRecommendStandardDeduction } from "@/lib/store"
 import VerifyNav from "@/app/components/VerifyNav"
+import { useAppRouter } from '@/hooks/approuter'
 
 export default function Page() {
     const { t } = useTranslation()
-    const router = useRouter()
+    const router = useAppRouter()
     const dispatch = useAppDispatch()
     const benefits = useAppSelector(state => selectBenefits(state))
     const expenseTotal = useAppSelector(state => selectExpenseTotal(state))

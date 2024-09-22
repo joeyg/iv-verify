@@ -4,12 +4,12 @@ import "@trussworks/react-uswds/lib/uswds.css"
 import "@trussworks/react-uswds/lib/index.css"
 import VerifyNav from "@/app/components/VerifyNav"
 import { Accordion, Button, Grid, GridContainer, HeadingLevel } from "@trussworks/react-uswds"
-import { useRouter } from "next/navigation"
 import { useTranslation } from "react-i18next"
+import { useAppRouter } from "@/hooks/approuter"
 
 export default function Page() {
     const { t } = useTranslation()
-    const router = useRouter()
+    const router = useAppRouter()
 
     const items = [
         {

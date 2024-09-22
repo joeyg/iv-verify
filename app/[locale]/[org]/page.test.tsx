@@ -5,16 +5,33 @@ import Page from './page'
 import { makeStore } from '@/lib/store'
 import { vi } from 'vitest'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import mockRouter from 'next-router-mock'
 
 describe('Intro Page', async () => {
     let store: EnhancedStore
+
+    const mocks = vi.hoisted(() => ({
+        push: vi.fn(),
+    }))
+
+    vi.mock('@/hooks/appconfig', () => ({
+        useAppConfig: () => ({
+            name: 'Arizona',
+            key: 'az',
+            benefits: [],
+        })
+    }))
+
+    vi.mock('next/navigation', () => ({
+        usePathname: () => '/',
+    }))
+
+    vi.mock('@/hooks/approuter', () => ({
+        useAppRouter: () => ({
+            push: mocks.push,
+        }),
+    }))
+
     beforeEach(() => {
-        vi.mock('next/navigation', () => ({
-            useRouter: () =>  mockRouter,
-            usePathname: () => mockRouter.asPath,
-        }))
-        mockRouter.push('/')
         store = makeStore()
         render (<Provider store={store}><Page /></Provider>)
     })
@@ -31,9 +48,8 @@ describe('Intro Page', async () => {
     it('navigates when clicked', async () => {
         fireEvent.click(screen.getByTestId('get_started_button'))
         await waitFor(() => {
-            expect(mockRouter).toMatchObject({
-                asPath: "/introduction/how-this-works"
-            })
+            expect(mocks.push).toHaveBeenCalledOnce()
+            expect(mocks.push).toHaveBeenCalledWith("/introduction/how-this-works/")
         })
     })
 })

@@ -3,16 +3,16 @@ import { useTranslation } from 'react-i18next'
 import { Button, Form, FormGroup, Grid, GridContainer, Alert, Checkbox, DatePicker, ComboBox, Label, ValidationChecklist, ValidationItem, RequiredMarker } from '@trussworks/react-uswds' 
 import { useAppDispatch } from "@/lib/hooks"
 import { ExpenseItem, addExpense } from "@/lib/features/ledger/expenses/expensesSlice"
-import { useRouter } from "next/navigation"
 import { SubmitHandler, useForm, Controller } from "react-hook-form"
 import TextFieldWithValidation from "@/app/components/TextFieldWithValidation"
 import RequiredFieldDescription from "@/app/components/RequiredFieldDescription"
 import VerifyNav from "@/app/components/VerifyNav"
+import { useAppRouter } from '@/hooks/approuter'
 
 export default function Page() {
     const { t } = useTranslation()
     const dispatch = useAppDispatch()
-    const router = useRouter()
+    const router = useAppRouter()
 
     type FormData = {
         name: string

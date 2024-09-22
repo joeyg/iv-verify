@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { 
   Accordion, 
@@ -12,10 +11,11 @@ import {
   ProcessListItem 
 } from "@trussworks/react-uswds";
 import VerifyNav from "@/app/components/VerifyNav";
+import { useAppRouter } from "@/hooks/approuter";
 
 export default function Page() {
   const { t } = useTranslation()
-  const router = useRouter()
+  const router = useAppRouter()
 
   function mainButtonClicked() {
   	router.push('/introduction/benefits/');

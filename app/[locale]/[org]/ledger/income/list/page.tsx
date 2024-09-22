@@ -2,17 +2,17 @@
 
 import { Button, Grid, GridContainer } from '@trussworks/react-uswds' 
 import { useTranslation } from 'react-i18next'
-import { useRouter } from "next/navigation"
 import { selectBenefits } from "@/lib/features/benefits/benefitsSlice"
 import { useAppSelector } from "@/lib/hooks"
 import IncomeList from "@/app/components/IncomeList"
 import VerifyNav from "@/app/components/VerifyNav"
+import { useAppRouter } from '@/hooks/approuter'
 
 const DAY_COUNT = 30
 
 export default function Page() {
     const { t } = useTranslation()
-    const router = useRouter()
+    const router = useAppRouter()
     const benefits = useAppSelector(state => selectBenefits(state))
 
     function doneClicked() {

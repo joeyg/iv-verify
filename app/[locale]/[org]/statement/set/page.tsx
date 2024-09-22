@@ -2,17 +2,17 @@
 import { Button, Form, FormGroup, Grid, GridContainer, DatePicker, Label } from '@trussworks/react-uswds' 
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from "@/lib/hooks"
-import { useRouter } from "next/navigation"
 import { SubmitHandler, useForm, Controller } from "react-hook-form"
 import TextFieldWithValidation from "@/app/components/TextFieldWithValidation"
 import ErrorSummary from "@/app/components/ErrorSummary"
 import { SignedStatementState, setSignedStatement } from "@/lib/features/statement/statementSlice"
 import VerifyNav from "@/app/components/VerifyNav"
+import { useAppRouter } from '@/hooks/approuter'
 
 export default function Page() {
     const { t } = useTranslation()
     const dispatch = useAppDispatch()
-    const router = useRouter()
+    const router = useAppRouter()
 
     type FormData = {
         name: string

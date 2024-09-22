@@ -10,7 +10,6 @@ export default function Home() {
   const { t } = useTranslation()
   const router = useAppRouter()
   const config = useAppConfig()
-  console.log('config', config)
 
   function getStartedClicked() {
     router.push('/introduction/how-this-works/')

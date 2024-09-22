@@ -2,13 +2,13 @@
 
 import { Button, HeadingLevel, Grid, GridContainer, Accordion } from '@trussworks/react-uswds' 
 import { useTranslation } from 'react-i18next'
-import { useRouter } from "next/navigation"
 import Link from 'next/link'
 import VerifyNav from "@/app/components/VerifyNav"
+import { useAppRouter } from '@/hooks/approuter'
 
 export default function Page() {
     const { t } = useTranslation()
-    const router = useRouter()
+    const router = useAppRouter()
 
     const testItems = [
         {

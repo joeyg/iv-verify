@@ -2,16 +2,16 @@
 import { Button, Form, FormGroup, Grid, GridContainer, Checkbox, Alert } from '@trussworks/react-uswds' 
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch, useAppSelector } from "@/lib/hooks"
-import { useRouter } from "next/navigation"
 import { SubmitHandler, useForm, Controller } from "react-hook-form"
 import { selectBenefits, setBenefits } from "@/lib/features/benefits/benefitsSlice"
 import { useState } from "react"
 import VerifyNav from "@/app/components/VerifyNav"
+import { useAppRouter } from '@/hooks/approuter'
 
 export default function Page() {
     const { t } = useTranslation()
     const dispatch = useAppDispatch()
-    const router = useRouter()
+    const router = useAppRouter()
     const benefits = useAppSelector(state => selectBenefits(state))
     const [errState, setErrState] = useState(false)
 
