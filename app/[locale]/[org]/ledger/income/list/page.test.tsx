@@ -11,14 +11,32 @@ import { BenefitsState, setBenefits } from '@/lib/features/benefits/benefitsSlic
 
 describe('List Income in Ledger Page', async () => {
     let store: EnhancedStore
+    const mocks = vi.hoisted(() => ({
+        push: vi.fn(),
+    }))
+
+    vi.mock('@/hooks/appconfig', () => ({
+        useAppConfig: () => ({
+            name: 'Arizona',
+            key: 'az',
+            benefits: [],
+        })
+    }))
+
+    vi.mock('next/navigation', () => ({
+        usePathname: () => '/',
+    }))
+
+    vi.mock('@/hooks/approuter', () => ({
+        useAppRouter: () => ({
+            push: mocks.push,
+        }),
+    }))
+
     beforeEach(() => {
-        vi.mock('next/navigation', () => ({
-            useRouter: () =>  mockRouter,
-            usePathname: () => mockRouter.asPath,
-        }))
-        mockRouter.push('/ledger/income/add')
         store = makeStore()
     })
+    afterEach(() => {mocks.push.mockReset()})
     afterEach(cleanup)
 
     it('shows navigation buttons', () => {
@@ -59,11 +77,8 @@ describe('List Income in Ledger Page', async () => {
         render (<Provider store={store}><Page /></Provider>)
         fireEvent.click(screen.getByTestId('done_button'))
         
-        waitFor(() => {
-            expect(mockRouter).toMatchObject({
-                asPath: "/ledger/expense/snap"
-            })
-        })
+        expect(mocks.push).toHaveBeenCalledOnce()
+        expect(mocks.push).toHaveBeenCalledWith("/ledger/expense")
     })
 
     it('navigates to expenses ledger landing screen for Medicaid only flow', () => {
@@ -75,11 +90,8 @@ describe('List Income in Ledger Page', async () => {
         render (<Provider store={store}><Page /></Provider>)
         fireEvent.click(screen.getByTestId('done_button'))
         
-        waitFor(() => {
-            expect(mockRouter).toMatchObject({
-                asPath: "/ledger/expense"
-            })
-        })
+        expect(mocks.push).toHaveBeenCalledOnce()
+        expect(mocks.push).toHaveBeenCalledWith("/ledger/expense")
     })
 
     it('navigates to expenses ledger landing screen for Medicaid+SNAP flow', () => {
@@ -91,10 +103,7 @@ describe('List Income in Ledger Page', async () => {
         render (<Provider store={store}><Page /></Provider>)
         fireEvent.click(screen.getByTestId('done_button'))
         
-        waitFor(() => {
-            expect(mockRouter).toMatchObject({
-                asPath: "/ledger/expense"
-            })
-        })
+        expect(mocks.push).toHaveBeenCalledOnce()
+        expect(mocks.push).toHaveBeenCalledWith("/ledger/expense")
     })
 })

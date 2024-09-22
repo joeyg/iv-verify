@@ -5,20 +5,28 @@ import Page from './page'
 import { makeStore } from '@/lib/store'
 import { vi } from 'vitest'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import mockRouter from 'next-router-mock'
 
 describe('Review Screen', async () => {
     let store: EnhancedStore
+    const mocks = vi.hoisted(() => ({
+        push: vi.fn(),
+    }))
+
+    vi.mock('@/hooks/approuter', () => ({
+        useAppRouter: () => ({
+            push: mocks.push,
+        }),
+    }))
+
     beforeEach(() => {
-        vi.mock('next/navigation', () => ({
-            useRouter: () =>  mockRouter,
-            usePathname: () => mockRouter.asPath,
-        }))
-        mockRouter.push('/ledger/review')
         store = makeStore()
         render (<Provider store={store}><Page /></Provider>)
     })
-    afterEach(cleanup)
+
+    afterEach(() => {
+        cleanup()
+        mocks.push.mockClear()
+    })
 
     it('shows header', () => {
         expect(screen.getByTestId('review-header')).toBeDefined()
@@ -31,10 +39,7 @@ describe('Review Screen', async () => {
     it('Clicking button navigates', () => {
         fireEvent.click(screen.getByTestId('continue-button'))
 
-        waitFor(() => {
-            expect(mockRouter).toMatchObject({
-                asPath: "/statement/sign"
-            })
-        })
+        expect(mocks.push).toHaveBeenCalledOnce()
+        expect(mocks.push).toHaveBeenCalledWith("/statement/sign")
     })
 })

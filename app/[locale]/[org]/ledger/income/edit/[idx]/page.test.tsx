@@ -15,17 +15,39 @@ describe('Edit Income Item Page', async () => {
         description: 'desc1',
         amount: 40
     }
+
+    const mocks = vi.hoisted(() => ({
+        push: vi.fn(),
+    }))
+
+    vi.mock('@/hooks/appconfig', () => ({
+        useAppConfig: () => ({
+            name: 'Arizona',
+            key: 'az',
+            benefits: [],
+        })
+    }))
+
+    vi.mock('next/navigation', () => ({
+        usePathname: () => '/',
+    }))
+
+    vi.mock('@/hooks/approuter', () => ({
+        useAppRouter: () => ({
+            push: mocks.push,
+        }),
+    }))
+
     beforeEach(() => {
-        vi.mock('next/navigation', () => ({
-            useRouter: () =>  mockRouter,
-            usePathname: () => mockRouter.asPath,
-        }))
-        mockRouter.push('/ledger/income/edit/0')
         store = makeStore()
         store.dispatch(addIncome(item1))
         render (<TestWrapper store={store}><Page params={{idx: 0}} /></TestWrapper>)
     })
-    afterEach(cleanup)
+
+    afterEach(() => {
+        cleanup()
+        mocks.push.mockClear()
+    })
 
     it('Shows Inputs', () => {
         expect(screen.getByTestId("name")).toBeDefined()
@@ -46,16 +68,15 @@ describe('Edit Income Item Page', async () => {
         fireEvent.click(screen.getByText('Continue'))
 
         await waitFor(() => {
-            expect(mockRouter).toMatchObject({
-                asPath: "/ledger/income/list"
-            })
-
-            const items = store.getState().incomeLedger.items
-            expect(items.length).toBe(1)
-            expect(items[0].name).toBe(newName)
-            expect(items[0].description).toBe(newDescription)
-            expect(items[0].amount).toBe(newAmount)
+            expect(mocks.push).toHaveBeenCalledOnce()
         })
+        expect(mocks.push).toHaveBeenCalledWith("/ledger/income/list")
+
+        const items = store.getState().incomeLedger.items
+        expect(items.length).toBe(1)
+        expect(items[0].name).toBe(newName)
+        expect(items[0].description).toBe(newDescription)
+        expect(items[0].amount).toBe(newAmount)
     })
 
 
@@ -71,8 +92,6 @@ describe('Edit Income Item Page', async () => {
 
         expect(screen.getAllByTestId("errorMessage")).toBeDefined()
 
-        expect(mockRouter).toMatchObject({
-            asPath: "/ledger/income/edit/0"
-        })
+        expect(mocks.push).not.toHaveBeenCalled()
     })
 })

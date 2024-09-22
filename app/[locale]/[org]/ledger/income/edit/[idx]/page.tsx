@@ -4,7 +4,7 @@ import { IncomeItem, selectIncomeItemAt, setIncomeItem } from "@/lib/features/le
 import { useAppSelector } from "@/lib/hooks"
 import { Grid, GridContainer } from "@trussworks/react-uswds"
 import { useTranslation } from "react-i18next"
-import IncomeItemForm, { IncomeItemFormData } from "@/app/[locale]/[organization]/ledger/income/IncomeItemForm"
+import IncomeItemForm, { IncomeItemFormData } from "@/app/[locale]/[org]/ledger/income/IncomeItemForm"
 import { useDispatch } from "react-redux"
 import { useAppRouter } from "@/hooks/approuter"
 

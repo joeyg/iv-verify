@@ -5,20 +5,28 @@ import Page from './page'
 import { makeStore } from '@/lib/store'
 import { vi } from 'vitest'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import mockRouter from 'next-router-mock'
 
 describe('Add Income To Ledger Page', async () => {
     let store: EnhancedStore
+    const mocks = vi.hoisted(() => ({
+        push: vi.fn(),
+    }))
+
+    vi.mock('@/hooks/approuter', () => ({
+        useAppRouter: () => ({
+            push: mocks.push,
+        }),
+    }))
+
     beforeEach(() => {
-        vi.mock('next/navigation', () => ({
-            useRouter: () =>  mockRouter,
-            usePathname: () => mockRouter.asPath,
-        }))
-        mockRouter.push('/ledger/expense/add')
         store = makeStore()
         render (<Provider store={store}><Page /></Provider>)
     })
-    afterEach(cleanup)
+
+    afterEach(() => {
+        cleanup()
+        mocks.push.mockClear()
+    })
 
     it('Shows Inputs', () => {
         expect(screen.getByTestId("name")).toBeDefined()
@@ -36,10 +44,7 @@ describe('Add Income To Ledger Page', async () => {
         })
 
         expect(screen.getAllByTestId("errorMessage")).toBeDefined()
-
-        expect(mockRouter).toMatchObject({
-            asPath: "/ledger/expense/add"
-        })
+        expect(mocks.push).not.toHaveBeenCalled()
     })
 
     it('Navigates when fields are filled in', async () => {
@@ -48,8 +53,8 @@ describe('Add Income To Ledger Page', async () => {
         })
 
         // Open date picker and click on '10'
-        await fireEvent.click(screen.getByTestId('date-picker-button'))
-        await fireEvent.click(screen.getByText('10'))
+        fireEvent.click(screen.getByTestId('date-picker-button'))
+        fireEvent.click(screen.getByText('10'))
 
         fireEvent.change(screen.getByTestId("amount"), {
             target: { value: '33.44' }
@@ -58,9 +63,8 @@ describe('Add Income To Ledger Page', async () => {
         fireEvent.click(screen.getByTestId('continue_button'))
 
         await waitFor(() => {
-            expect(mockRouter).toMatchObject({
-                asPath: "/ledger/expense/list"
-            })
+            expect(mocks.push).toHaveBeenCalledOnce()
         })
+        expect(mocks.push).toHaveBeenCalledWith("/ledger/expense/list")
     })
 })

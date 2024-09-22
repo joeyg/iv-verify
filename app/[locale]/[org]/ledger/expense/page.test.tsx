@@ -1,23 +1,23 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import Page from './page'
 import { makeStore } from '@/lib/store'
-import { vi } from 'vitest'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import mockRouter from 'next-router-mock'
 
 describe('Expense Landing Screen', async () => {
     let store: EnhancedStore
+    vi.mock('@/hooks/approuter', () => ({
+        useAppRouter: () => ({
+            push: vi.fn(),
+        }),
+    }))
+
     beforeEach(() => {
-        vi.mock('next/navigation', () => ({
-            useRouter: () =>  mockRouter,
-            usePathname: () => mockRouter.asPath,
-        }))
-        mockRouter.push('/ledger/income/add')
         store = makeStore()
         render (<Provider store={store}><Page /></Provider>)
     })
+
     afterEach(cleanup)
 
     it('shows header', () => {
