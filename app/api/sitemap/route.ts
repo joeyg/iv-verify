@@ -17,15 +17,6 @@ export async function GET(req: Request) {
                 return `<url><loc>http://${req.headers.get('host')}/${name}</loc></url>`
             }
           
-            console.log(i18nConfig.locales.map((locale) => {
-                let n = name.replace("[locale]", locale)
-
-                return configFile.organizations.map((org) => {
-                    n = n.replace("[org]", org.urlKey)
-                    return `<url><loc>http://${req.headers.get('host')}/${n}</loc></url>`
-                })
-
-            }))
             return i18nConfig.locales.map((locale) => {
                 return configFile.organizations.map((org) => {
                     const n = name.replace("[locale]", locale).replace("[org]", org.urlKey)

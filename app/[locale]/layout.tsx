@@ -19,12 +19,6 @@ export const metadata: Metadata = {
 export function generateStaticParams() {
     const configFile: ConfigFile = config
 
-    console.log(i18nConfig.locales.map((locale) => {
-        return configFile.organizations.map((org) => ({
-            locale,
-            org: org.urlKey,
-        }))
-    }).flat())
     return i18nConfig.locales.map((locale) => {
         return configFile.organizations.map((org) => ({
             locale,
