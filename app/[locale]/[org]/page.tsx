@@ -4,12 +4,10 @@ import { useAppRouter } from "@/hooks/approuter";
 import { useTranslation } from "react-i18next";
 import { Grid, GridContainer, Icon, Button, Accordion, HeadingLevel } from "@trussworks/react-uswds";
 import VerifyNav from "@/app/components/VerifyNav";
-import { useAppConfig } from "@/hooks/appconfig";
 
 export default function Home() {
   const { t } = useTranslation()
   const router = useAppRouter()
-  const config = useAppConfig()
 
   function getStartedClicked() {
     router.push('/introduction/how-this-works/')

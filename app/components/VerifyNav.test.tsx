@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, Mock, vi } from "vitest"
+import { describe, expect, it, Mock, vi } from "vitest"
 import VerifyNav from "./VerifyNav"
 import { cleanup, fireEvent, render, screen } from "@testing-library/react"
 import { i18nConfig } from "../constants"
