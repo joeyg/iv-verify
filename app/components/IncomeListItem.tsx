@@ -3,7 +3,7 @@ import { IncomeItem, removeIncome } from "@/lib/features/ledger/income/incomeSli
 import { useAppDispatch } from "@/lib/hooks"
 import { Grid, ModalToggleButton, Modal, ModalHeading, ModalFooter, ButtonGroup, Button } from "@trussworks/react-uswds"
 import { useRef } from "react"
-import { useRouter } from "next/navigation"
+import { useAppRouter } from "@/hooks/approuter"
 interface ItemProps {
     item: IncomeItem
     index: number
@@ -12,7 +12,7 @@ export default function IncomeListItem({ item, index }: ItemProps) {
     const ref = useRef(null)
     const { t } = useTranslation()
     const dispatch = useAppDispatch()
-    const router = useRouter()
+    const router = useAppRouter()
 
     function onDeleteClicked() {
         dispatch(removeIncome(index))

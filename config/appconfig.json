@@ -1,0 +1,36 @@
+{
+    "organizations": [{
+        "name": "Arizona",
+        "urlKey": "az",
+        "benefits": ["snap", "medicaid"],
+        "sections": [{
+            "key": "personalInformation",
+            "questions": [
+                "fullName",
+                "homeAddress",
+                "mailingAddress",
+                "phoneNumber"
+            ]
+        }, {
+            "key": "people",
+            "questions": [
+                "fullName",
+                "relationship",
+                "martialStatus",
+                "dateOfBirth",
+                "ssn",
+                "gendermf",
+                "citizenship",
+                "fileIncomeTax",
+                "filingStatus",
+                "claimDependents",
+                "claimedAsDependent"
+            ]
+        }
+        ]
+    }, {
+        "name": "Alaska",
+        "urlKey": "ak",
+        "benefits": ["snap", "medicaid"]
+    }]
+}

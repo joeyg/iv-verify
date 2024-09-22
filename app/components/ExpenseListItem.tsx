@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next"
 import { ExpenseItem, removeExpense } from "@/lib/features/ledger/expenses/expensesSlice"
 import { useAppDispatch } from "@/lib/hooks"
-import { useRouter } from "next/navigation"
 import { 
     Button, 
     ButtonGroup,
@@ -12,6 +11,7 @@ import {
     ModalToggleButton
 } from "@trussworks/react-uswds"
 import { useRef } from "react"
+import { useAppRouter } from "@/hooks/approuter"
 type NewType = ExpenseItem
 
 interface ItemProps {
@@ -22,7 +22,7 @@ export default function ExpenseListItem({ item, index }: ItemProps) {
     const ref = useRef(null)
     const { t } = useTranslation()
     const dispatch = useAppDispatch()
-    const router = useRouter()
+    const router = useAppRouter()
 
     function onDeleteClicked() {
         dispatch(removeExpense(index))

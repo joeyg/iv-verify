@@ -1,0 +1,108 @@
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { Provider } from 'react-redux'
+import Page from './page'
+import { makeStore } from '@/lib/store'
+import { vi } from 'vitest'
+import { EnhancedStore } from '@reduxjs/toolkit'
+import { addIncome, IncomeItem } from '@/lib/features/ledger/income/incomeSlice'
+import { BenefitsState, setBenefits } from '@/lib/features/benefits/benefitsSlice'
+
+describe('List Income in Ledger Page', async () => {
+    let store: EnhancedStore
+    const mocks = vi.hoisted(() => ({
+        push: vi.fn(),
+    }))
+
+    vi.mock('@/hooks/appconfig', () => ({
+        useAppConfig: () => ({
+            name: 'Arizona',
+            key: 'az',
+            benefits: [],
+        })
+    }))
+
+    vi.mock('next/navigation', () => ({
+        usePathname: () => '/',
+    }))
+
+    vi.mock('@/hooks/approuter', () => ({
+        useAppRouter: () => ({
+            push: mocks.push,
+        }),
+    }))
+
+    beforeEach(() => {
+        store = makeStore()
+    })
+    afterEach(() => {mocks.push.mockReset()})
+    afterEach(cleanup)
+
+    it('shows navigation buttons', () => {
+        render (<Provider store={store}><Page /></Provider>)
+        expect(screen.getByTestId('add_another_button')).toBeDefined()
+        expect(screen.getByTestId('done_button')).toBeDefined()
+    })
+    
+    it('shows items in list', () => {
+        const item1: IncomeItem = {
+            name: 'fname lname',
+            description: 'desc1',
+            amount: 40
+        }
+        const item2: IncomeItem = {
+            name : 'foo bar',
+            description: 'desc2',
+            amount: 75
+        }
+        const items = [item1, item2]
+        store.dispatch(addIncome(item1))
+        store.dispatch(addIncome(item2))
+        render (<Provider store={store}><Page /></Provider>)
+
+        for (let item of items) {
+            expect(screen.getByText(item.name))
+            expect(screen.getByText(item.description))
+            expect(screen.getByText("$" + item.amount))
+        }
+    })
+
+    it('navigates to self employment expenses screen for SNAP only flow', () => {
+        const benefits: BenefitsState = {
+            snap: true,
+            medicaid: false,
+        }
+        store.dispatch(setBenefits(benefits))
+        render (<Provider store={store}><Page /></Provider>)
+        fireEvent.click(screen.getByTestId('done_button'))
+        
+        expect(mocks.push).toHaveBeenCalledOnce()
+        expect(mocks.push).toHaveBeenCalledWith("/ledger/expense")
+    })
+
+    it('navigates to expenses ledger landing screen for Medicaid only flow', () => {
+        const benefits: BenefitsState = {
+            snap: false,
+            medicaid: true,
+        }
+        store.dispatch(setBenefits(benefits))
+        render (<Provider store={store}><Page /></Provider>)
+        fireEvent.click(screen.getByTestId('done_button'))
+        
+        expect(mocks.push).toHaveBeenCalledOnce()
+        expect(mocks.push).toHaveBeenCalledWith("/ledger/expense")
+    })
+
+    it('navigates to expenses ledger landing screen for Medicaid+SNAP flow', () => {
+        const benefits: BenefitsState = {
+            snap: false,
+            medicaid: true,
+        }
+        store.dispatch(setBenefits(benefits))
+        render (<Provider store={store}><Page /></Provider>)
+        fireEvent.click(screen.getByTestId('done_button'))
+        
+        expect(mocks.push).toHaveBeenCalledOnce()
+        expect(mocks.push).toHaveBeenCalledWith("/ledger/expense")
+    })
+})

@@ -1,62 +1,27 @@
-'use client'
+"use client"
 
-import { useRouter } from "next/navigation";
-import { useTranslation } from "react-i18next";
-import { Grid, GridContainer, Icon, Button, Accordion, HeadingLevel } from "@trussworks/react-uswds";
-import VerifyNav from "@/app/components/VerifyNav";
+import config from "@/config/appconfig.json"
+import Link from "next/link"
+import { GridContainer } from "@trussworks/react-uswds"
+import { useTranslation } from "react-i18next"
 
 export default function Home() {
-  const { t } = useTranslation()
-  const router = useRouter()
+    const { t } = useTranslation()
 
-  function getStartedClicked() {
-    router.push('/introduction/how-this-works/')
-  }
-
-  const items = [
-    {
-      title: t('intro_how_do_i_know_header'),
-      content: (
+    const items = config.organizations.map((org) => {
+        return (<li key={org.urlKey}>
+            <Link href={org.urlKey}>{org.name}</Link>
+        </li>)
+    })
+    return (
         <div>
-          <p className="margin-bottom-3">{t('intro_how_do_i_know_body_list_header')}</p>
-          <ul>
-            <li>{t('intro_how_do_i_know_list_have_expenses')}</li>
-            <li>{t('intro_how_do_i_know_list_they_receive')}</li>
-            <li>{t('intro_how_do_i_know_list_own')}</li>
-            <li>{t('intro_how_do_i_know_list_benefits')}</li>
-          </ul>
+            <div className="usa-section">
+                <GridContainer>
+                    <h1>{t('landing_organizations')}</h1>
+                    <br />
+                    <ul>{items}</ul>
+                </GridContainer>
+            </div>
         </div>
-      ),
-      expanded: false,
-      id: 'intro_how_do_i_know',
-      headingLevel: 'h4' as HeadingLevel,
-    }
-  ]
-  
-  return (
-    <div>
-      <VerifyNav title={t('intro_title')} />
-      <div className="usa-section">
-          <GridContainer>
-              <Grid row gap>
-                  <main className="usa-layout-docs">
-                    <h3 className="margin-bottom-2" data-testid="intro_header">{t('intro_header')}</h3>
-                    <span className="usa-hint">{t('intro_subheader')}</span>
-
-                    <div className="margin-top-4">
-                      <Icon.Lock className="margin-right-1" /> 
-                      {t('intro_secure')}
-                    </div>
-
-                    <p className="text-center">
-                      <Button type="button" onClick={getStartedClicked} data-testid="get_started_button" className="margin-bottom-3 margin-top-3">{t('intro_get_started_button')}</Button>
-                    </p>
-
-                    <Accordion multiselectable={true} items={items} />
-                  </main>
-              </Grid>
-            </GridContainer>
-      </div>
-    </div>
-  );
+    )
 }
