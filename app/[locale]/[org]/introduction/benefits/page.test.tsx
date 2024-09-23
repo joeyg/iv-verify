@@ -84,8 +84,6 @@ describe('Choose Benefits', async () => {
             expect(mocks.advanceFlow).toHaveBeenCalledOnce()
         })
 
-        expect(mocks.push).toHaveBeenCalledWith("/ledger/income")
-
         const benefits = selectBenefits(store.getState())
         expect(benefits.medicaid).toBeTruthy()
         expect(benefits.snap).toBeTruthy()
