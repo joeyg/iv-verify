@@ -10,12 +10,13 @@ import { selectBenefits } from '@/lib/features/benefits/benefitsSlice'
 describe('Choose Benefits', async () => {
     let store: EnhancedStore
     const mocks = vi.hoisted(() => ({
-        push: vi.fn(),
+        advanceFlow: vi.fn(),
     }))
 
     vi.mock('@/hooks/approuter', () => ({
         useAppRouter: () => ({
-            push: mocks.push,
+            advanceFlow: mocks.advanceFlow,
+
         }),
     }))
     beforeEach(() => {
@@ -24,7 +25,7 @@ describe('Choose Benefits', async () => {
     })
     afterEach(() => {
         cleanup()
-        mocks.push.mockClear()
+        mocks.advanceFlow.mockClear()
     })
 
     it('Shows Inputs', async () => {
@@ -39,7 +40,7 @@ describe('Choose Benefits', async () => {
             expect(screen.getByTestId("alert")).toBeDefined()
         })
 
-        expect(mocks.push).not.toHaveBeenCalledOnce()
+        expect(mocks.advanceFlow).not.toHaveBeenCalledOnce()
     })
 
     it('Navigates when just medicaid checkbox is checked', async() => {
@@ -48,9 +49,8 @@ describe('Choose Benefits', async () => {
         fireEvent.click(screen.getByTestId("continue_button"))
 
         await waitFor(() => {
-            expect(mocks.push).toHaveBeenCalledOnce()
+            expect(mocks.advanceFlow).toHaveBeenCalledOnce()
         })
-        expect(mocks.push).toHaveBeenCalledWith("/ledger/income")
         expect(checkbox.checked).toBeTruthy()
         
         const benefits = selectBenefits(store.getState())
@@ -64,10 +64,9 @@ describe('Choose Benefits', async () => {
         fireEvent.click(screen.getByTestId("continue_button"))
 
         await waitFor(() => {
-            expect(mocks.push).toHaveBeenCalledOnce()
+            expect(mocks.advanceFlow).toHaveBeenCalledOnce()
         })
 
-        expect(mocks.push).toHaveBeenCalledWith("/ledger/income")
 
         expect(checkbox.checked).toBeTruthy()
         
@@ -82,10 +81,8 @@ describe('Choose Benefits', async () => {
         fireEvent.click(screen.getByTestId("continue_button"))
 
         await waitFor(() => {
-            expect(mocks.push).toHaveBeenCalledOnce()
+            expect(mocks.advanceFlow).toHaveBeenCalledOnce()
         })
-
-        expect(mocks.push).toHaveBeenCalledWith("/ledger/income")
 
         const benefits = selectBenefits(store.getState())
         expect(benefits.medicaid).toBeTruthy()

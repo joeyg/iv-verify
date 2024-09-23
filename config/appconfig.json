@@ -12,7 +12,7 @@
                 "phoneNumber"
             ]
         }, {
-            "key": "people",
+            "key": "household",
             "questions": [
                 "fullName",
                 "relationship",
@@ -31,6 +31,15 @@
     }, {
         "name": "Alaska",
         "urlKey": "ak",
-        "benefits": ["snap", "medicaid"]
+        "benefits": ["snap", "medicaid"],
+        "sections": [{
+            "key": "personalInformation",
+            "questions": [
+                "fullName",
+                "homeAddress",
+                "mailingAddress",
+                "phoneNumber"
+            ]
+        }]
     }]
 }
