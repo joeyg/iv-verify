@@ -6,7 +6,7 @@ import { useAppSelector } from "@/lib/hooks";
 import { StepIndicator, StepIndicatorStep } from "@trussworks/react-uswds";
 import { useTranslation } from "react-i18next";
 
-export default function () {
+export default function FlowStepIndicator () {
     const { sections } = useAppConfig()
     const { t } = useTranslation()
     const currentStage = useAppSelector(state => selectFlowStage(state))
@@ -32,7 +32,7 @@ export default function () {
             headingLevel="h2"
             ofText={t('of')}
             stepText={t('step')}
-            >
+        >
             {steps}
         </StepIndicator>
     )
