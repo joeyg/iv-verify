@@ -11,7 +11,6 @@ export default function FlowStepIndicator () {
     const { t } = useTranslation()
     const currentStage = useAppSelector(state => selectFlowStage(state))
 
-
     let foundCurrentStep = false
     const steps = sections.map((section) => {
         let status = foundCurrentStep ? "incomplete" : "complete"
