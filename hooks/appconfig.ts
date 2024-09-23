@@ -6,10 +6,16 @@ export interface ConfigFile {
     organizations: OrgConfig[]
 }
 
+export interface Section {
+    key: string,
+    questions: string[]
+}
+
 export interface OrgConfig {
     name: string
     urlKey: string
     benefits: string[]
+    sections: Section[]
 }
 
 export function useAppConfig(): OrgConfig {

@@ -3,6 +3,7 @@ import incomeReducer, { selectIncomeTotal } from './features/ledger/income/incom
 import expenseReducer, { selectExpenseTotal } from './features/ledger/expenses/expensesSlice'
 import statementReducer from './features/statement/statementSlice'
 import benefitsReducer, { selectBenefits } from './features/benefits/benefitsSlice'
+import flowReducer from './features/flow/flowSlice'
 import { setInitialStateAction } from "./actions";
 
 export const makeStore = () => {
@@ -11,6 +12,7 @@ export const makeStore = () => {
         expensesLedger: expenseReducer,
         statement: statementReducer,
         benefits: benefitsReducer,
+        flow: flowReducer,
     })
     const rootReducer = (state: any, action: Action) => {
         if (setInitialStateAction.match(action)) {
