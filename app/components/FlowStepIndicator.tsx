@@ -13,7 +13,7 @@ export default function FlowStepIndicator () {
 
     let foundCurrentStep = false
     const steps = sections.map((section) => {
-        let status = foundCurrentStep ? "incomplete" : "complete"
+        let status: "current" | "incomplete" | "complete" = foundCurrentStep ? "incomplete" : "complete"
         if (section.key === currentStage) {
             foundCurrentStep = true
             status = "current"
