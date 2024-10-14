@@ -4,14 +4,15 @@ import FlowStepIndicator from "@/app/components/FlowStepIndicator";
 import TextFieldWithValidation from "@/app/components/TextFieldWithValidation";
 import VerifyNav from "@/app/components/VerifyNav";
 import { useAppConfig } from "@/hooks/appconfig";
-import { selectPersonalInformation } from "@/lib/features/flow/personalInformation";
-import { useAppSelector } from "@/lib/hooks";
+import { selectPersonalInformation, setPersonalInformation } from "@/lib/features/flow/personalInformation";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { Button, Form, FormGroup, Grid, GridContainer } from "@trussworks/react-uswds";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 export default function Page() {
     const { t } = useTranslation()
+    const dispatch = useAppDispatch()
     const orgConfig = useAppConfig()
     const sectionConfig = orgConfig.sections.find(section => section.key === "personalInformation")
     const personalInformation = useAppSelector((state) => selectPersonalInformation(state))
@@ -28,6 +29,28 @@ export default function Page() {
     
     function onSubmit(data) {
         console.log(data)
+        const homeAddress = {
+            address1: data['homeAddress_address1'],
+            address2: data['homeAddress_address2'],
+            city: data['homeAddress_city'],
+            zip: data['homeAddress_zip'],
+            state: data['homeAddress_state']
+        }
+
+        const mailingAddress = {
+            address1: data['mailingAddress_address1'],
+            address2: data['mailingAddress_address2'],
+            city: data['mailingAddress_city'],
+            zip: data['mailingAddress_zip'],
+            state: data['mailingAddress_state']
+        }
+
+        dispatch(setPersonalInformation({
+            fullName: data.fullName,
+            homeAddress,
+            mailingAddress,
+            phoneNumber: data.phoneNumber,
+        }))
     }
 
     function inputField(fieldName: any) {

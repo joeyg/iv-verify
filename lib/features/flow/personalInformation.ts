@@ -38,7 +38,10 @@ export const personalInfromationSlice = createSlice({
     initialState,
     reducers: {
         setPersonalInformation: (state, action: PayloadAction<PersonalInformationState>) => {
-            state = action.payload
+            state.fullName = action.payload.fullName
+            state.homeAddress = action.payload.homeAddress
+            state.mailingAddress = action.payload.mailingAddress
+            state.phoneNumber = action.payload.phoneNumber
         }
     }
 })
