@@ -10,7 +10,7 @@ export const initialState: FlowState = {
 }
 
 export const flowSlice = createSlice({
-    name: 'statement/set',
+    name: 'flow/set',
     initialState,
     reducers: {
         setFlowStage: (state, action: PayloadAction<string>) => {

@@ -194,5 +194,18 @@
   "household_step_title": "Household Makeup",
   "of": "of",
   "step": "Step",
-  "personal_information_title": "Personal Information"
+  "personal_information_title": "Personal Information",
+  "personal_information_fullName": "Full Name",
+  "personal_information_fullName_required": "Full Name is required",
+  "personal_information_homeAddress_header": "Home Address",
+  "personal_information_address1": "Address 1",
+  "personal_information_address1_required": "Address 1 is required",
+  "personal_information_address2": "Address 2",
+  "personal_information_city": "City",
+  "personal_information_city_required": "City is required",
+  "personal_information_zip": "Zip",
+  "personal_information_zip_required": "Zip is required",
+  "personal_information_state": "State",
+  "personal_information_state_required": "State is required",
+  "continue": "Continue"
 }
